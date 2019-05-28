@@ -2,10 +2,11 @@
 ## 1. Create aks in azure
 You can do this in azure portal
 
-## 2. Connection aks cluster with kubectl
+## 2. Connect aks cluster with kubectl
 ```
 az login
 az aks get-credentials --resource-group group_name --name cluster_name
+kubectl version
 ```
 
 ## 3. check if cluster has RBAC enabled
@@ -33,13 +34,4 @@ customresourcedefinition.apiextensions.k8s.io/tracingservices.getambassador.io c
 
 From above the output you see list of resources have been created after the installation.
 
-## 3. Deploy 2 services by using the attached yaml files
-```
-$ kubectl apply -f ingress-default-backend.yaml 
-kubectl adeployment.extensions/ingress-default-backend created
-ppservice/ingress-default-backend created
 
-$ kubectl apply -f http-svc.yaml 
-deployment.extensions/http-svc created
-service/http-svc created
-```
