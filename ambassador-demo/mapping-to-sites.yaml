@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind:  Mapping
+      name:  httpbin_mapping
+      prefix: /httpbin/
+      service: httpbin.org:80
+      host_rewrite: httpbin.org
+spec:
+  ports:
+  - name: httpbin
+    port: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: youtube
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind:  Mapping
+      name:  youtube_mapping
+      prefix: /youtube/
+      service: youtube.com:80
+      host_rewrite: youtube.com
+spec:
+  ports:
+  - name: youtube
+    port: 80

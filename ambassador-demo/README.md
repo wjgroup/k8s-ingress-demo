@@ -34,4 +34,69 @@ customresourcedefinition.apiextensions.k8s.io/tracingservices.getambassador.io c
 
 From above the output you see list of resources have been created after the installation.
 
+## 5. Create Ambassador load balancer so we can access from external
+Run below the command to create Ambassador load balancer
+```
+$ kubectl apply -f ambassador-loadbalancer.yaml
+```
 
+After than, keep running below the command till you see `EXTERNAL-IP` is generated
+```
+$ kubectl get svc -o wide ambassador
+NAME         TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)        AGE   SELECTOR
+ambassador   LoadBalancer   10.0.65.32   52.183.39.233   80:30958/TCP   36m   service=ambassador
+```
+
+## 6. Create routing to test the Ambassador mapping
+I have created `mapping-to-sites.yaml` file within the folder which contains 2 redirections, one to httpbin.org and one to youtube.com. Run below the command to create them
+```
+$ kubeclt apply -f mapping-to-sites.yaml
+```
+
+Then you can access below the 2 urls in browser and see it redirect you to target host sites.
+```
+52.183.39.233/httpbin/
+52.183.39.233/youtube/
+```
+And, DON'T forget the tailing `/`.
+
+## 7. Create a in cluster service and try the mapping
+```
+$ kubectl apply -f qotm.yaml
+```
+
+Then curl the service
+```
+$ curl 52.183.39.233/qotm/
+{"hostname":"qotm-745c9bfd-g44zh","ok":true,"quote":"Nihilism gambles with lives, happiness, and even destiny itself!","time":"2019-05-29T07:16:01.113512","version":"1.3"}
+```
+
+## 8. Enable the Diagnostics dashboard
+
+Ambassador includes an integrated diagnostics service to help with troubleshooting. By default, this is not exposed to the Internet. To view it, we'll need to get the name of one of the Ambassador pods:
+
+```
+$ kubectl get pods
+NAME                                       READY   STATUS    RESTARTS   AGE
+ambassador-5755df44b6-hkdtd                1/1     Running   0          18h
+ambassador-5755df44b6-t22wn                1/1     Running   0          18h
+ambassador-5755df44b6-zb7j6                1/1     Running   0          18h
+```
+
+Forwarding local port 8877 (or any other port you want) to one of the pods:
+
+```
+kubectl port-forward ambassador-3655608000-43x86 8877
+```
+
+Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
+
+![Diagnostic screenshot](./ScreenShot-Diagnostic.png)
+
+
+
+
+
+
+## References
+> https://www.getambassador.io/user-guide/getting-started/
