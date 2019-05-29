@@ -62,7 +62,7 @@ And, DON'T forget the tailing `/`.
 
 ## 7. Create a in cluster service and try the mapping
 ```
-$ kubectl apply -f qotm.yaml
+$ kubectl apply -f qotm-1.3.yaml
 ```
 
 Then curl the service
@@ -99,4 +99,5 @@ Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
 
 
 ## References
-> https://www.getambassador.io/user-guide/getting-started/
+> [Ambassador quick start](https://www.getambassador.io/user-guide/getting-started/)  
+[Ambassador mapping](https://www.getambassador.io/reference/mappings/)
