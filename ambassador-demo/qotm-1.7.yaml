@@ -1,0 +1,52 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qotm17
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind:  Mapping
+      name:  qotm17_mapping
+      prefix: /qotm/
+      service: qotm17
+      headers: 
+        x-bvt: true
+spec:
+  selector:
+    app: qotm17
+  ports:
+  - port: 80
+    name: http-qotm
+    targetPort: http-api
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: qotm17
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: qotm17
+    spec:
+      containers:
+      - name: qotm17
+        image: datawire/qotm:1.7
+        ports:
+        - name: http-api
+          containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 3
+        resources:
+          limits:
+            cpu: "0.1"
+            memory: 100Mi

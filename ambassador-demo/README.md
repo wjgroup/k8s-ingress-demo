@@ -71,7 +71,42 @@ $ curl 52.183.39.233/qotm/
 {"hostname":"qotm-745c9bfd-g44zh","ok":true,"quote":"Nihilism gambles with lives, happiness, and even destiny itself!","time":"2019-05-29T07:16:01.113512","version":"1.3"}
 ```
 
-## 8. Enable the Diagnostics dashboard
+## 8. Headers annotation
+Previously we have Ambassador routing `/qotm/` mapping to qotm 1.3 service. now to simulate a blue/green deploy, I am going to deploy qotm 1.7 version and trying to map the same routing to qotm 1.7 service only when the request has a special header `x-bvt`.
+```
+$ kubectl apply -f qotm-1.7.yaml
+```
+
+Above the applied yaml contains qotm17 service with annotation
+```
+  prefix: /qotm/
+  service: qotm17
+  headers: 
+    x-bvt: true
+```
+
+The headers annotation `x-bvt: true` tells Ambassador to send all requests with `x-bvt` header to service qotm17, otherwise, to qotm13.
+
+Now lets curl it and try out.
+```
+$ curl -H "x-bvt:y" 52.183.39.233/qotm/
+{"hostname":"qotm17-5bdd674569-qjq8b","ok":true,"quote":"A late night does not make any sense.","time":"2019-05-29T20:20:27.936516","version":"1.7"}
+```
+
+And if we curl it without the header, we will hit qotm 1.3
+```
+$ curl 52.183.39.233/qotm/
+{"hostname":"qotm-58cbdcbd9c-j5kgq","ok":true,"quote":"A small mercy is nothing at all?","time":"2019-05-29T20:20:00.777159","version":"1.3"}
+```
+
+
+
+
+
+
+
+
+## x. Enable the Diagnostics dashboard
 
 Ambassador includes an integrated diagnostics service to help with troubleshooting. By default, this is not exposed to the Internet. To view it, we'll need to get the name of one of the Ambassador pods:
 
@@ -100,4 +135,5 @@ Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
 
 ## References
 > [Ambassador quick start](https://www.getambassador.io/user-guide/getting-started/)  
-[Ambassador mapping](https://www.getambassador.io/reference/mappings/)
+[Ambassador mapping](https://www.getambassador.io/reference/mappings/)  
+[Ambassador headers annotation](https://www.getambassador.io/reference/headers/#headers) 
