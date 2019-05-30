@@ -77,7 +77,7 @@ Previously we have Ambassador routing `/qotm/` mapping to qotm 1.3 service. now 
 $ kubectl apply -f qotm-1.7.yaml
 ```
 
-Above the applied yaml contains qotm17 service with annotation
+Above the applied yaml contains qotm17 service with below the important annotation config:
 ```
   prefix: /qotm/
   service: qotm17
@@ -85,7 +85,7 @@ Above the applied yaml contains qotm17 service with annotation
     x-bvt: true
 ```
 
-The headers annotation `x-bvt: true` tells Ambassador to send all requests with `x-bvt` header to service qotm17, otherwise, to qotm13.
+The headers annotation `x-bvt: true` tells Ambassador to send all `/qotm/` requests with `x-bvt` header to service qotm17, otherwise, to qotm13.
 
 Now lets curl it and try out.
 ```
@@ -106,7 +106,7 @@ $ curl 52.183.39.233/qotm/
 
 
 
-## x. Enable the Diagnostics dashboard
+## 9. Enable the Diagnostics dashboard
 
 Ambassador includes an integrated diagnostics service to help with troubleshooting. By default, this is not exposed to the Internet. To view it, we'll need to get the name of one of the Ambassador pods:
 
