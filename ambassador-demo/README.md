@@ -152,4 +152,5 @@ Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
 ## References
 > [Ambassador quick start](https://www.getambassador.io/user-guide/getting-started/)  
 [Ambassador mapping](https://www.getambassador.io/reference/mappings/)  
-[Ambassador headers annotation](https://www.getambassador.io/reference/headers/#headers) 
+[Ambassador headers annotation](https://www.getambassador.io/reference/headers/#headers)  
+[Sample ratelimit service](https://github.com/datawire/ambassador/blob/f653780befd65d72f955e94f5fac146d8794c712/unused-e2e/ratelimit-service/server.js)
