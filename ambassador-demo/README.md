@@ -3,6 +3,7 @@
 You can do this in azure portal
 
 ## 2. Connect aks cluster with kubectl
+
 ```
 az login
 az aks get-credentials --resource-group group_name --name cluster_name
@@ -10,6 +11,7 @@ kubectl version
 ```
 
 ## 3. check if cluster has RBAC enabled
+
 ```
 kubeclt api-versions
 ```
@@ -17,6 +19,7 @@ kubeclt api-versions
 If you see something like `rbac.authorization.k8s.io/v1` in it then RBAC is enabled
 
 ## 4. Deploy Ambassador
+
 ```
 $ kubectl apply -f https://getambassador.io/yaml/ambassador/ambassador-rbac.yaml
 service/ambassador-admin created
@@ -35,6 +38,7 @@ customresourcedefinition.apiextensions.k8s.io/tracingservices.getambassador.io c
 From above the output you see list of resources have been created after the installation.
 
 ## 5. Create Ambassador load balancer so we can access from external
+
 Run below the command to create Ambassador load balancer
 ```
 $ kubectl apply -f ambassador-loadbalancer.yaml
@@ -48,6 +52,7 @@ ambassador   LoadBalancer   10.0.65.32   52.183.39.233   80:30958/TCP   36m   se
 ```
 
 ## 6. Create routing to test the Ambassador mapping
+
 I have created `mapping-to-sites.yaml` file within the folder which contains 2 redirections, one to httpbin.org and one to youtube.com. Run below the command to create them
 ```
 $ kubeclt apply -f mapping-to-sites.yaml
@@ -61,6 +66,7 @@ Then you can access below the 2 urls in browser and see it redirect you to targe
 And, DON'T forget the tailing `/`.
 
 ## 7. Create a in cluster service and try the mapping
+
 ```
 $ kubectl apply -f qotm-1.3.yaml
 ```
@@ -72,6 +78,7 @@ $ curl 52.183.39.233/qotm/
 ```
 
 ## 8. Headers annotation
+
 Previously we have Ambassador routing `/qotm/` mapping to qotm 1.3 service. now to simulate a blue/green deploy, I am going to deploy qotm 1.7 version and trying to map the same routing to qotm 1.7 service only when the request has a special header `x-bvt`.
 ```
 $ kubectl apply -f qotm-1.7.yaml
@@ -98,6 +105,13 @@ And if we curl it without the header, we will hit qotm 1.3
 $ curl 52.183.39.233/qotm/
 {"hostname":"qotm-58cbdcbd9c-j5kgq","ok":true,"quote":"A small mercy is nothing at all?","time":"2019-05-29T20:20:00.777159","version":"1.3"}
 ```
+## 9. Another example, one service routing requests to 2 container in one pod
+
+In this exmaple we have one yaml file `tour.yaml` which defines one service and 2 containers, `tour-ui` and `backend`.
+
+```
+$ kubectl apply -f tour.yaml
+```
 
 
 
@@ -106,7 +120,9 @@ $ curl 52.183.39.233/qotm/
 
 
 
-## 9. Enable the Diagnostics dashboard
+
+
+## 0. Enable the Diagnostics dashboard
 
 Ambassador includes an integrated diagnostics service to help with troubleshooting. By default, this is not exposed to the Internet. To view it, we'll need to get the name of one of the Ambassador pods:
 

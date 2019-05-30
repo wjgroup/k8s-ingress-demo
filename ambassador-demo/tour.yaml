@@ -17,10 +17,6 @@ metadata:
       name: tour-backend_mapping
       prefix: /backend/
       service: tour:8080
-      labels:
-        ambassador:
-          - request_label:
-            - backend
 spec:
   ports:
   - name: ui
