@@ -1,4 +1,4 @@
-# Set up azure k8s service
+# Set up HAProxy on azure k8s cluster - failed!
 ## 1. Create aks in azure
 You can do this in azure portal
 
