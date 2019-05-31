@@ -105,14 +105,44 @@ And if we curl it without the header, we will hit qotm 1.3
 $ curl 52.183.39.233/qotm/
 {"hostname":"qotm-58cbdcbd9c-j5kgq","ok":true,"quote":"A small mercy is nothing at all?","time":"2019-05-29T20:20:00.777159","version":"1.3"}
 ```
-## 9. Another example, one service routing requests to 2 container in one pod
+## 9. One service routes requests to 2 container in one pod
 
-In this exmaple we have one yaml file `tour.yaml` which defines one service and 2 containers, `tour-ui` and `backend`.
+In this example we have one yaml file `tour.yaml` which defines one service and 2 containers: `tour-ui` and `backend`. The yaml has below the Ambassador annotations for the routing:
+```
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: tour-ui_mapping
+      prefix: /
+      service: tour:5000
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: tour-backend_mapping
+      prefix: /backend/
+      service: tour:8080
+```
+
+Let's apply the yaml and try it out
 
 ```
 $ kubectl apply -f tour.yaml
+service/tour created
+deployment.apps/tour created
+
+$ curl 52.183.39.233/
+<!doctype html><html lang="en">...ignores long html content...</html>
+$ curl 52.183.39.233/backend/
+{
+    "server": "adorable-jackfruit-w0ppuvhb",
+    "quote": "Nihilism gambles with lives, happiness, and even destiny itself!",
+    "time": "2019-05-30T23:53:04.797979075Z"
+}
 ```
 
+## 10. Rate limit service
+> Will cover this if have time
 
 
 
@@ -120,9 +150,7 @@ $ kubectl apply -f tour.yaml
 
 
 
-
-
-## 0. Enable the Diagnostics dashboard
+## 11. Enable the Diagnostics dashboard
 
 Ambassador includes an integrated diagnostics service to help with troubleshooting. By default, this is not exposed to the Internet. To view it, we'll need to get the name of one of the Ambassador pods:
 

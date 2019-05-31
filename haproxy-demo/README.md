@@ -17,4 +17,14 @@ ppservice/ingress-default-backend created
 $ kubectl apply -f http-svc.yaml 
 deployment.extensions/http-svc created
 service/http-svc created
+
+$ kubectl apply -f http-svc-ingress.yaml
+ingress.extensions/app created
+
 ```
+
+
+
+# Reference
+>[HAProxy Ingress Controller for Kubernetes](https://www.haproxy.com/blog/haproxy_ingress_controller_for_kubernetes/)  
+[Deploying HAProxy Ingress Controller](https://github.com/jcmoraisjr/haproxy-ingress/tree/master/examples/deployment)
