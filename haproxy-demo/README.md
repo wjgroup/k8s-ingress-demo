@@ -23,6 +23,15 @@ ingress.extensions/app created
 
 ```
 
+<aside class="notice">
+...
+
+Unfortunatelly after multple rounds of trying I failed test HAProxy ingress controller on a newly started azure k8s cluster. So I give up.
+
+But at least we know the HAProxy ingress controller is very similar to Nginx ingress controller, that we need create a ingress resource which defines the host and match.
+</aside>
+
+
 
 
 # Reference
