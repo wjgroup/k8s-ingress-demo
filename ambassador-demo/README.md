@@ -105,7 +105,7 @@ And if we curl it without the header, we will hit qotm 1.3
 $ curl 52.183.39.233/qotm/
 {"hostname":"qotm-58cbdcbd9c-j5kgq","ok":true,"quote":"A small mercy is nothing at all?","time":"2019-05-29T20:20:00.777159","version":"1.3"}
 ```
-## 9. One service routes requests to 2 container in one pod
+## 9. One service routes requests to 2 containers in one pod
 
 In this example we have one yaml file `tour.yaml` which defines one service and 2 containers: `tour-ui` and `backend`. The yaml has below the Ambassador annotations for the routing:
 ```
@@ -171,8 +171,6 @@ kubectl port-forward ambassador-3655608000-43x86 8877
 Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
 
 ![Diagnostic screenshot](./ScreenShot-Diagnostic.png)
-
-
 
 
 
