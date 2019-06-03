@@ -13,7 +13,7 @@ kubectl version
 ## 3. check if cluster has RBAC enabled
 
 ```
-kubeclt api-versions
+kubectl api-versions
 ```
 
 If you see something like `rbac.authorization.k8s.io/v1` in it then RBAC is enabled
