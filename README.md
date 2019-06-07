@@ -3,3 +3,5 @@
 [Ambassador Demo](./ambassador-demo)
 
 [HAProxy Demo](./haproxy-demo)
+
+[Istio Demo](./istio-demo)
