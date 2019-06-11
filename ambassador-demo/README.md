@@ -172,8 +172,11 @@ Then we can view the diagnostics at http://localhost:8877/ambassador/v0/diag/.
 
 ![Diagnostic screenshot](./ScreenShot-Diagnostic.png)
 
+If needed, you can get JSON output from the diagnostic service, instead of HTML:
 
-
+```
+curl http://localhost:8877/ambassador/v0/diag/?json=true
+```
 
 ## References
 > [Ambassador quick start](https://www.getambassador.io/user-guide/getting-started/)  
