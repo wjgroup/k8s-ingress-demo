@@ -1,0 +1,17 @@
+apiVersion: getambassador.io/v1
+kind:  Mapping
+metadata:
+  name:  httpbin-mapping
+spec:
+  prefix: /httpbin/
+  service: httpbin.org:80
+  host_rewrite: httpbin.org
+---
+apiVersion: getambassador.io/v1
+kind:  Mapping
+metadata:
+  name:  youtube-mapping
+spec:
+  prefix: /youtube/
+  service: youtube.com:80
+  host_rewrite: youtube.com
